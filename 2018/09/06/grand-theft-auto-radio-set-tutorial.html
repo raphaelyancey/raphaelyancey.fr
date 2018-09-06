@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Build your own GTA: San Andreas radio set | Raphaël Yancey</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Build your own GTA: San Andreas radio set" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Programming, electronics, music and other" />
+<meta property="og:description" content="Programming, electronics, music and other" />
+<link rel="canonical" href="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html" />
+<meta property="og:url" content="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html" />
+<meta property="og:site_name" content="Raphaël Yancey" />
+<meta property="og:image" content="https://raphaelyancey.fr/assets/img/bg.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-09-06T00:00:00+02:00" />
+<script type="application/ld+json">
+{"description":"Programming, electronics, music and other","headline":"Build your own GTA: San Andreas radio set","dateModified":"2018-09-06T00:00:00+02:00","datePublished":"2018-09-06T00:00:00+02:00","@type":"BlogPosting","image":"https://raphaelyancey.fr/assets/img/bg.jpg","url":"https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://raphaelyancey.fr/feed.xml" title="Raphaël Yancey" /><link rel="shortcut icon" type="image/png" href="/assets/img/me-48.png" />
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Raphaël Yancey</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/projects/">Projects</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Build your own GTA: San Andreas radio set</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-09-06T00:00:00+02:00" itemprop="datePublished">Sep 6, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- TODO: update install script URL -->
+
+<p>By following this tutorial you’ll be able to build a radio set with custom stations, in this case the <em>GTA: San Andreas</em> stations. <a href="/projects/grand-theft-auto-san-andreas-radio-set.html">This is the original radio I built.</a></p>
+
+<p><img src="https://i.imgur.com/QhesgDH.jpg" alt="The GTA:SA radio" /></p>
+
+<p>Also works with other games / universes as long as you have the soundtrack (<em>Fallout</em> anyone 😏 ?)</p>
+
+<p>It uses <a href="https://github.com/raphaelyancey/Virtual_FM_Band">Virtual_FM_Band</a> and <a href="https://github.com/raphaelyancey/pyKY040">pyKY040</a>, two Python programs I wrote for the occasion.</p>
+
+<h2 id="bill-of-materials-45">Bill Of Materials (~$45)</h2>
+
+<ul>
+  <li>1 * <a href="https://www.ebay.fr/itm/Raspberry-Pi-3-Model-B-Plus-1-4GHz-Quad-Core-64Bit-1GB-RAM-2018-Model/261698200759">Raspberry Pi 3</a> (might work on other SBC but not tested)</li>
+  <li>1 * 8GB (or more) <a href="https://www.raspberrypi.org/documentation/installation/sd-cards.md">micro-SD card</a></li>
+  <li>1 * Vintage radio (at least 10.5 x 18.5 x 5.5mm — keep the speaker!)</li>
+  <li>1 * <a href="https://www.ebay.com/itm/5pcs-Mini-Solderless-Prototype-Breadboard-SYB-170-170-Tie-points-For-Arduino-/253218642521">Small breadboard</a></li>
+  <li>2 * <a href="https://www.ebay.com/itm/2pcs-KY-040-Rotary-Encoder-Module-for-Arduino-AVR-PIC-NEW/171906808593">KY040 encoder</a></li>
+  <li>2 * <a href="https://www.ebay.fr/itm/10Pcs-6mm-D-Shaft-Hole-Knobs-Aluminum-Potentiometer-Pot-Caps-for-Electric-Guitar/112750148954">Encoders caps</a></li>
+  <li>1 * <a href="https://www.ebay.fr/itm/USB-2-0-Adaptateur-USB-CARTE-SON-3D-5-1-AUDIO-MICRO-CASQUE-STEREO-EXTERNAL-/292654792250?oid=153077145613">USB DAC</a></li>
+  <li>1 * <a href="https://www.ebay.com/itm/5PCS-Mini-Digital-Power-Amplifier-Board-PAM8403-Class-D-2-3W/171192554169">PAM8403 amplifier</a> (or equivalent depending on your radio speaker)</li>
+  <li>1 * <a href="https://www.ebay.fr/itm/Micro-USB-2-0-Male-to-Female-connector-Adapter-Cable-30cm-With-Panel-Mount-Hole/391957934957">Micro-USB panel mount</a> (male &lt;&gt; female)</li>
+  <li>18 * <a href="https://www.ebay.fr/itm/40-PCs-Dupont-Jumper-Wire-m-m-m-f-f-f-cable-pi-pic-pain-pour-Arduino/323094330106">DuPont prototyping wires</a> (male &lt;&gt; female)</li>
+  <li>1 * <a href="https://www.ebay.fr/itm/10pcs-3-5mm-1-8-Audio-Male-Plug-Jack-Adapter-Connector-DIY-Earphone-SpeakerFE/232857668261">Male 1/8” TRS audio jack</a></li>
+</ul>
+
+<p>And optionally for the tuning status LED:</p>
+
+<ul>
+  <li>1 * Red LED</li>
+  <li>1 * 100 Ω resistor</li>
+</ul>
+
+<p>… and some screws, bolts, wire, multimeter, spare DuPont headers &amp; basic soldering tools that I’m guessing you already have. Also, a glue gun will be useful.</p>
+
+<h1 id="hardware">Hardware</h1>
+
+<h2 id="1-empty-the-radio-case">1. Empty the radio case</h2>
+
+<ul>
+  <li>Get rid of everything <strong>but the speaker</strong> and the pot caps if it has any. Read any indication on the speaker to buy the amplifier accordingly.</li>
+</ul>
+
+<h2 id="2-solder-the-micro-usb-panel-mount-to-the-pi">2. Solder the micro-USB panel mount to the Pi</h2>
+
+<ul>
+  <li><strong>Strip</strong> the male socket part of the panel mount cable</li>
+  <li><strong>Solder</strong> the <strong>positive</strong> (red) wire to the <strong>PP1</strong> pad of the Raspberry Pi</li>
+  <li><strong>Solder</strong> the <strong>negative</strong> (black) wire to the <strong>top of the socket</strong> directly (the socket is grounded, and this way we avoid messing too much with the board if we want to re-use for another project)</li>
+  <li>Put a little bit of <strong>glue</strong> on top of the socket solder to be sure the wire won’t move</li>
+</ul>
+
+<p><img src="https://i.imgur.com/VvuUuPV.jpg" alt="PP1 pad on the Raspberry Pi" /></p>
+
+<p><img src="https://i.imgur.com/UWCdr9y.jpg" alt="Grounded socket" /></p>
+
+<h2 id="3-build-the-speaker-assembly">3. Build the speaker assembly</h2>
+
+<blockquote>
+  <p>Check out the <a href="#6-wire-it-up">schematics below</a> to have a more general view of the wiring</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p><strong>Cut</strong> and <strong>strip</strong> five small length wires: two for <em>amp &lt;&gt; speaker</em> and three for <em>Pi &lt;&gt; amp</em></p>
+  </li>
+  <li>Amplifier
+    <ul>
+      <li><strong>Solder</strong> a 2-pins male DuPont header (bended, if you have) to the <strong>amplifier 5V input</strong></li>
+      <li><strong>Connect two male &lt;&gt; female DuPont wires</strong> to it and make it sturdy with electrical tape or thermo-retractable sheath</li>
+    </ul>
+  </li>
+  <li>Audio jack
+    <ul>
+      <li>Get the <strong>audio jack</strong> out of its plastic housing (we won’t use it — just keep the metallic part)</li>
+      <li>With the optional help of a multimeter, locate the <em>tip</em> (left audio channel), <em>ring</em> (right audio channel) and <em>sleeve</em> (ground) parts of the audio jack (<a href="https://robrobinette.com/images/Audio/TRS_Pinout_4_Wire.jpg">schema</a>)</li>
+      <li><strong>Solder wires</strong> to each part</li>
+      <li><strong>Isolate it</strong> and make it sturdy with electrical tape or sheath</li>
+    </ul>
+  </li>
+  <li>Speaker
+    <ul>
+      <li><strong>Solder</strong> two wires to the speaker positive and negative poles</li>
+    </ul>
+  </li>
+  <li>Assembly
+    <ul>
+      <li><strong>Solder</strong> the wire coming from the speaker <strong>positive</strong> pole to the amplifier <strong>OUT L+</strong> hole</li>
+      <li><strong>Solder</strong> the wire coming from the speaker <strong>negative</strong> pole to the amplifier <strong>OUT L-</strong> hole (it could’ve been R+ and R- since the audio output will be mono, meaning both the left and right channel will output the same signal)</li>
+      <li><strong>Solder</strong> the wire coming from the audio jack <strong>tip</strong> (left) to the amplifier <strong>L</strong> hole</li>
+      <li><strong>Solder</strong> the wire coming from the audio jack <strong>ring</strong> (right) to the amplifier <strong>R</strong> hole</li>
+      <li><strong>Solder</strong> the wire coming from the audio jack <strong>sleeve</strong> (ground) to the amplifier <strong>⏚</strong> (ground) hole</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>You now have the full speaker assembly</strong> with an audio jack and two female DuPont wires ready to be plugged.</p>
+
+<h2 id="4-build-the-status-led-optional">4. Build the status LED (optional)</h2>
+
+<ul>
+  <li><strong>Cut</strong> two DuPont wires and keep the <em>female</em> part of each and <strong>strip</strong> the other part</li>
+  <li><strong>Solder</strong> one of the wires to the resistor</li>
+  <li><strong>Solder</strong> the resistor to the longest pin of the LED</li>
+  <li><strong>Solder</strong> the other wire to the other pin of the LED</li>
+</ul>
+
+<h2 id="5-prepare-the-case">5. Prepare the case</h2>
+
+<p>Here, <strong>it will all depend on the shape of your radio case</strong>. Just make sure you have enough space for the whole stuff by trying different layouts. When you think you’re ready, then…</p>
+
+<ul>
+  <li><strong>Drill</strong> two holes for the encoders</li>
+  <li><strong>Drill or cut</strong> a rectangular hole for the micro-USB panel mount and two more aside it to screw it to the case</li>
+</ul>
+
+<p><strong>Optional but very useful:</strong> cut a hole for accessing the Pi micro-SD card without having to open the case.</p>
+
+<h2 id="6-install-everything">6. Install everything</h2>
+
+<ul>
+  <li><strong>Install the encoders</strong> in their holes and screw the bolts</li>
+  <li>If you can, <strong>screw the Pi to the case</strong> so it won’t move. Else, find some magic trick in your maker head!</li>
+  <li><strong>Stick the breadboard</strong> to the case</li>
+  <li><strong>Screw the panel mount</strong> to the case</li>
+</ul>
+
+<p><strong>At this point</strong>, you shouldn’t any moving parts in the radio case except the speaker assembly: everything is either screwed or glued to the case.</p>
+
+<h2 id="7-wire-it-up">7. Wire it up</h2>
+
+<ul>
+  <li>Follow the following wiring schema and if needed, get help from <a href="https://pinout.xyz">pinout.xyz</a> for identifying the pin numbers (BCM numbering is used across the project)</li>
+</ul>
+
+<p><img src="https://i.imgur.com/XvqQmSJ.png" alt="Wiring schematics" /></p>
+
+<ul>
+  <li>
+    <p>If you’re using the status LED, <strong>plug</strong> the DuPont wire soldered to the resistor to the <a href="https://pinout.xyz/pinout/pin22_gpio25#">BCM 25 pin</a>, and the other wire to a ground pin (either on the Pi or on the grounded rail of the breadboard)</p>
+  </li>
+  <li>Remove the <strong>USB DAC</strong> plastic case to gain some space, and plug it into the Pi</li>
+  <li>Plug the <strong>audio jack</strong> into the <strong>USB DAC</strong></li>
+</ul>
+
+<p><strong>The hardware part is done</strong>, congratulations 🎉</p>
+
+<h1 id="software">Software</h1>
+
+<h2 id="flash-raspbian-to-a-sd-card">Flash Raspbian to a SD card</h2>
+
+<ul>
+  <li>Get the <a href="https://downloads.raspberrypi.org/raspbian_latest">latest <strong>Raspbian image</strong></a></li>
+</ul>
+
+<blockquote>
+  <p><strong>Why not Raspbian Lite?</strong> Because headless WiFi configuration seems buggy for now. However if you have access to an Ethernet cable, you can choose Raspbian Lite and skip the <em>wpa_supplicant.conf</em> part below.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Flash it</strong> to the micro-SD card with e.g. <a href="https://etcher.io/">Etcher</a></li>
+  <li>Once flashed, remove it and put it back in your computer to be able to access the <em>/boot</em> partition</li>
+  <li>In a terminal, <code class="highlighter-rouge">cd</code> into the micro-SD card and type the following commands</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">touch </span>ssh <span class="c"># To enable ssh at first boot</span>
+nano wpa_supplicant.conf <span class="c"># WiFi configuration at first boot</span>
+</code></pre></div></div>
+
+<p>Paste the following (edit with your own informations):</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>country=YOUR_COUNTRY_ISO_CODE
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+    ssid="YOUR_SSID"
+    scan_ssid=1
+    psk="YOUR_SSID_KEY"
+    key_mgmt=WPA-PSK
+}
+</code></pre></div></div>
+
+<ul>
+  <li><strong>Eject/unmount</strong> the micro-SD card and put it in the Raspberry Pi</li>
+  <li><strong>Power on</strong> the Raspberry Pi</li>
+</ul>
+
+<p><strong>You should now (after ~30s) be able to <code class="highlighter-rouge">ssh</code> into your Raspberry Pi:</strong> <code class="highlighter-rouge">ssh pi@raspberrypi.local</code> (the password is <em>raspberry</em>).</p>
+
+<blockquote>
+  <p>I strongly suggest you change the password of <code class="highlighter-rouge">pi</code> user or enable key file authentication at this point. The Pi won’t be powered a lot but it costs nothing and prevent any harm!</p>
+</blockquote>
+
+<h2 id="install-the-software">Install the software</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">ssh</code> into your Raspberry Pi</li>
+  <li><strong>Run</strong> the following commands:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>raspi-config <span class="nt">--expand-rootfs</span> <span class="c"># Makes the root partition fill up the micro-SD card</span>
+wget https://raw.githubusercontent.com/raphaelyancey/Virtual_FM_Band/ftr_easy-wrapper/install.sh | bash <span class="c"># Good practice is to read the script before running it!</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>The <a href="https://raw.githubusercontent.com/raphaelyancey/Virtual_FM_Band/master/install.sh">install script</a> installs packages, clone the virtual radio software, installs required Python modules and creates a cron to run the virtual radio at boot.</p>
+
+<h2 id="prepare-and-transfer-the-audio-files">Prepare and transfer the audio files</h2>
+
+<p>The way it’s written at the moment, <strong>the virtual radio software consider each file to be a whole station</strong>. But you probably have multiple files into a folder for each station of your soundtrack, so we’ll have to concate the files into one file.</p>
+
+<blockquote>
+  <p>The files must be mono-channel MP3s at 44.1k rate</p>
+</blockquote>
+
+<blockquote>
+  <p>You might have to use some bash-fu to avoid typing the command for each file, take a look at <code class="highlighter-rouge">find</code> and <code class="highlighter-rouge">xargs</code>!</p>
+</blockquote>
+
+<p><strong>Audio manipulations</strong> can be done with the <code class="highlighter-rouge">sox</code> swiss-army knife:</p>
+<ul>
+  <li>For each file, run <code class="highlighter-rouge">sox file.ext -c 1 -r 44100 output/file.mp3</code>(this will convert to MP3, reduce to one channel and convert to 44.1k if not already)</li>
+  <li>Considering you have an output folder per station, concatenate all the files into one with <code class="highlighter-rouge">sox file1.mp3 file2.mp3 file3.mp3 [...] STATION_NAME.mp3</code></li>
+</ul>
+
+<p>At this point, <strong>you should have one file per virtual station</strong>. We can now transfer them to the Pi.</p>
+
+<ul>
+  <li><strong>Transfer</strong> each station to the Pi with <code class="highlighter-rouge">scp STATION_NAME.mp3 pi@raspberrypi.local:/home/pi/audio/</code></li>
+  <li>To choose <strong>the order in which the stations will be played</strong> next to each other, <code class="highlighter-rouge">ssh</code> into your Pi and rename the stations following the <strong>alphabetical order</strong> (e.g. prefix them with numbers to choose the order)</li>
+</ul>
+
+<blockquote>
+  <p>The virtual radio software reads the audio folder in alphabetical order and assigns virtual frequencies by following this order.</p>
+</blockquote>
+
+<h2 id="all-done-">All done 👏</h2>
+
+<p>Run <code class="highlighter-rouge">sudo reboot</code> from your Pi and <strong>it should start after a few seconds</strong> depending on the amount of files/stations that you have transfered.</p>
+
+<p>Before unplugging the Pi power cord, run <code class="highlighter-rouge">ssh pi@raspberrypi.local sudo shutdown -h now</code> or you might corrupt the SD card. For the bad guys over here, if you don’t plan to do it anyway, at least unplug it when the Pi green LED isn’t bliking — meaning the micro-SD card isn’t being wrote on, meaning there is less chance to corrupt it.</p>
+
+<p>You can also <a href="https://www.raspberrypi.org/blog/adafruits-read-only/">make Raspbian read-only</a>, which I’ll try soon and maybe add to the installation script later on.</p>
+
+<p>If everything runs perfectly, <strong>I strongly suggest you to backup your micro-SD</strong> card in an image to be able to restore it in case it gets corrupted.</p>
+
+<hr />
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<p>If the radio doesn’t start on boot:</p>
+<ul>
+  <li>Check that the script is launched with <code class="highlighter-rouge">ps aux | grep python</code></li>
+  <li>See that <em>pulseaudio</em> is launched with <code class="highlighter-rouge">ps aux | grep pulse</code></li>
+  <li>Try to launch the script yourself and see if it prints errors with <code class="highlighter-rouge">python2 /home/pi/app/src/main.py</code></li>
+</ul>
+
+<p>I’d be happy to help either on Twitter <a href="https://twitter.com/raphaelyancey">@raphaelyancey</a> or on Github if you think the issue is related to either <a href="https://github.com/raphaelyancey/Virtual_FM_Band">Virtual_FM_Band</a> or <a href="https://github.com/raphaelyancey/pyKY040">pyKY040</a>.</p>
+
+<hr />
+
+<div><small><i>Updated on 2018/09/06 — Revision 1</i></small></div>
+
+  </div><a class="u-url" href="/2018/09/06/grand-theft-auto-radio-set-tutorial.html" hidden></a>
+</article>
+
+<script data-isso="//c.raphaelyancey.fr/" data-isso-require-author="true" src="//c.raphaelyancey.fr/js/embed.min.js"></script>
+
+<section id="isso-thread"></section>
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    anchors.add();
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Raphaël Yancey</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li><li>
+              <a class="u-email" href="mailto:%68%65%6C%6C%6F@%72%61%70%68%61%65%6C%79%61%6E%63%65%79.%66%72">Contact</a>
+            </li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/raphaelyancey"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">raphaelyancey</span></a></li><li><a href="https://www.pinterest.com/raphaelyancey"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#pinterest"></use></svg> <span class="username">raphaelyancey</span></a></li><li><a href="https://twitter.com/raphaelyancey"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">raphaelyancey</span></a></li><li><a class="footer-social-link" href="https://behance.net/raphaelyancey" title="Behance"  target="_blank" rel="nofollow"><svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   width="16px" height="16px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" class="svg-icon">
+<g>
+  <path d="M71.769,44.799c-7.32,0-8.339,7.307-8.339,7.307h15.566C78.997,52.105,79.089,44.799,71.769,44.799z"/>
+  <path d="M36.453,52.105H22.658V64.77h13.157c1.979-0.055,5.633-0.676,5.633-6.154C41.448,52.041,36.453,52.105,36.453,52.105z"/>
+  <path d="M39.804,39.154c0-4.93-3.352-4.93-3.352-4.93h-1.777H22.658v10.574h12.939C37.833,44.799,39.804,44.084,39.804,39.154z"/>
+  <path d="M92,3H8C5.239,3,3,5.238,3,8v84c0,2.762,2.239,5,5,5h84c2.761,0,5-2.238,5-5V8C97,5.238,94.761,3,92,3z M61.388,28.594
+    H80.94v5.836H61.388V28.594z M51.505,59.205c0,14.463-15.053,13.986-15.053,13.986H22.658h-0.405h-10.46V25.803h10.46h0.405h13.795
+    c7.493,0,13.409,4.137,13.409,12.617s-7.23,9.018-7.23,9.018C52.164,47.438,51.505,59.205,51.505,59.205z M88.079,58.43H63.521
+    c0,8.805,8.341,8.248,8.341,8.248c7.877,0,7.599-5.098,7.599-5.098h8.34c0,13.529-16.216,12.604-16.216,12.604
+    c-19.46,0-18.21-18.117-18.21-18.117s-0.016-18.207,18.209-18.207C90.765,37.859,88.079,58.43,88.079,58.43z"/>
+</g>
+</svg>
+ <span class="username">raphaelyancey</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Programming, electronics, music and other</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/anchor-js@4.1.1/anchor.min.js" integrity="sha256-pB/deHc9CGfFpJRjC43imB29Rse8tak+5eXqntO94ck=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+    var u="//s.raphaelyancey.fr/";
+    _paq.push(['setTrackerUrl', u+'js/']);
+    _paq.push(['setSiteId', '2']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'js/'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <noscript>
+    <p><img src="//s.raphaelyancey.fr/js/?idsite=2&amp;rec=1" style="border:0;" alt=""></p>
+  </noscript>
+
+  </body>
+
+</html>

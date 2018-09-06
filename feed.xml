@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="https://raphaelyancey.fr/feed.xml" rel="self" type="application/atom+xml" /><link href="https://raphaelyancey.fr/" rel="alternate" type="text/html" /><updated>2018-09-06T10:49:18+02:00</updated><id>https://raphaelyancey.fr/</id><title type="html">Raphaël Yancey</title><subtitle>Programming, electronics, music and other</subtitle><entry><title type="html">Build your own GTA: San Andreas radio set</title><link href="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html" rel="alternate" type="text/html" title="Build your own GTA: San Andreas radio set" /><published>2018-09-06T00:00:00+02:00</published><updated>2018-09-06T00:00:00+02:00</updated><id>https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial</id><content type="html" xml:base="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html">&lt;!-- TODO: update install script URL --&gt;
+
+&lt;p&gt;By following this tutorial you’ll be able to build a radio set with custom stations, in this case the &lt;em&gt;GTA: San Andreas&lt;/em&gt; stations. &lt;a href=&quot;/projects/grand-theft-auto-san-andreas-radio-set.html&quot;&gt;This is the original radio I built.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/QhesgDH.jpg&quot; alt=&quot;The GTA:SA radio&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Also works with other games / universes as long as you have the soundtrack (&lt;em&gt;Fallout&lt;/em&gt; anyone 😏 ?)&lt;/p&gt;
+
+&lt;p&gt;It uses &lt;a href=&quot;https://github.com/raphaelyancey/Virtual_FM_Band&quot;&gt;Virtual_FM_Band&lt;/a&gt; and &lt;a href=&quot;https://github.com/raphaelyancey/pyKY040&quot;&gt;pyKY040&lt;/a&gt;, two Python programs I wrote for the occasion.&lt;/p&gt;
+
+&lt;h2 id=&quot;bill-of-materials-45&quot;&gt;Bill Of Materials (~$45)&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1 * &lt;a href=&quot;https://www.ebay.fr/itm/Raspberry-Pi-3-Model-B-Plus-1-4GHz-Quad-Core-64Bit-1GB-RAM-2018-Model/261698200759&quot;&gt;Raspberry Pi 3&lt;/a&gt; (might work on other SBC but not tested)&lt;/li&gt;
+  &lt;li&gt;1 * 8GB (or more) &lt;a href=&quot;https://www.raspberrypi.org/documentation/installation/sd-cards.md&quot;&gt;micro-SD card&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;1 * Vintage radio (at least 10.5 x 18.5 x 5.5mm — keep the speaker!)&lt;/li&gt;
+  &lt;li&gt;1 * &lt;a href=&quot;https://www.ebay.com/itm/5pcs-Mini-Solderless-Prototype-Breadboard-SYB-170-170-Tie-points-For-Arduino-/253218642521&quot;&gt;Small breadboard&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;2 * &lt;a href=&quot;https://www.ebay.com/itm/2pcs-KY-040-Rotary-Encoder-Module-for-Arduino-AVR-PIC-NEW/171906808593&quot;&gt;KY040 encoder&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;2 * &lt;a href=&quot;https://www.ebay.fr/itm/10Pcs-6mm-D-Shaft-Hole-Knobs-Aluminum-Potentiometer-Pot-Caps-for-Electric-Guitar/112750148954&quot;&gt;Encoders caps&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;1 * &lt;a href=&quot;https://www.ebay.fr/itm/USB-2-0-Adaptateur-USB-CARTE-SON-3D-5-1-AUDIO-MICRO-CASQUE-STEREO-EXTERNAL-/292654792250?oid=153077145613&quot;&gt;USB DAC&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;1 * &lt;a href=&quot;https://www.ebay.com/itm/5PCS-Mini-Digital-Power-Amplifier-Board-PAM8403-Class-D-2-3W/171192554169&quot;&gt;PAM8403 amplifier&lt;/a&gt; (or equivalent depending on your radio speaker)&lt;/li&gt;
+  &lt;li&gt;1 * &lt;a href=&quot;https://www.ebay.fr/itm/Micro-USB-2-0-Male-to-Female-connector-Adapter-Cable-30cm-With-Panel-Mount-Hole/391957934957&quot;&gt;Micro-USB panel mount&lt;/a&gt; (male &amp;lt;&amp;gt; female)&lt;/li&gt;
+  &lt;li&gt;18 * &lt;a href=&quot;https://www.ebay.fr/itm/40-PCs-Dupont-Jumper-Wire-m-m-m-f-f-f-cable-pi-pic-pain-pour-Arduino/323094330106&quot;&gt;DuPont prototyping wires&lt;/a&gt; (male &amp;lt;&amp;gt; female)&lt;/li&gt;
+  &lt;li&gt;1 * &lt;a href=&quot;https://www.ebay.fr/itm/10pcs-3-5mm-1-8-Audio-Male-Plug-Jack-Adapter-Connector-DIY-Earphone-SpeakerFE/232857668261&quot;&gt;Male 1/8” TRS audio jack&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And optionally for the tuning status LED:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1 * Red LED&lt;/li&gt;
+  &lt;li&gt;1 * 100 Ω resistor&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;… and some screws, bolts, wire, multimeter, spare DuPont headers &amp;amp; basic soldering tools that I’m guessing you already have. Also, a glue gun will be useful.&lt;/p&gt;
+
+&lt;h1 id=&quot;hardware&quot;&gt;Hardware&lt;/h1&gt;
+
+&lt;h2 id=&quot;1-empty-the-radio-case&quot;&gt;1. Empty the radio case&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Get rid of everything &lt;strong&gt;but the speaker&lt;/strong&gt; and the pot caps if it has any. Read any indication on the speaker to buy the amplifier accordingly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2-solder-the-micro-usb-panel-mount-to-the-pi&quot;&gt;2. Solder the micro-USB panel mount to the Pi&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Strip&lt;/strong&gt; the male socket part of the panel mount cable&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the &lt;strong&gt;positive&lt;/strong&gt; (red) wire to the &lt;strong&gt;PP1&lt;/strong&gt; pad of the Raspberry Pi&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the &lt;strong&gt;negative&lt;/strong&gt; (black) wire to the &lt;strong&gt;top of the socket&lt;/strong&gt; directly (the socket is grounded, and this way we avoid messing too much with the board if we want to re-use for another project)&lt;/li&gt;
+  &lt;li&gt;Put a little bit of &lt;strong&gt;glue&lt;/strong&gt; on top of the socket solder to be sure the wire won’t move&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/VvuUuPV.jpg&quot; alt=&quot;PP1 pad on the Raspberry Pi&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/UWCdr9y.jpg&quot; alt=&quot;Grounded socket&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;3-build-the-speaker-assembly&quot;&gt;3. Build the speaker assembly&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Check out the &lt;a href=&quot;#6-wire-it-up&quot;&gt;schematics below&lt;/a&gt; to have a more general view of the wiring&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Cut&lt;/strong&gt; and &lt;strong&gt;strip&lt;/strong&gt; five small length wires: two for &lt;em&gt;amp &amp;lt;&amp;gt; speaker&lt;/em&gt; and three for &lt;em&gt;Pi &amp;lt;&amp;gt; amp&lt;/em&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Amplifier
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; a 2-pins male DuPont header (bended, if you have) to the &lt;strong&gt;amplifier 5V input&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Connect two male &amp;lt;&amp;gt; female DuPont wires&lt;/strong&gt; to it and make it sturdy with electrical tape or thermo-retractable sheath&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Audio jack
+    &lt;ul&gt;
+      &lt;li&gt;Get the &lt;strong&gt;audio jack&lt;/strong&gt; out of its plastic housing (we won’t use it — just keep the metallic part)&lt;/li&gt;
+      &lt;li&gt;With the optional help of a multimeter, locate the &lt;em&gt;tip&lt;/em&gt; (left audio channel), &lt;em&gt;ring&lt;/em&gt; (right audio channel) and &lt;em&gt;sleeve&lt;/em&gt; (ground) parts of the audio jack (&lt;a href=&quot;https://robrobinette.com/images/Audio/TRS_Pinout_4_Wire.jpg&quot;&gt;schema&lt;/a&gt;)&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Solder wires&lt;/strong&gt; to each part&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Isolate it&lt;/strong&gt; and make it sturdy with electrical tape or sheath&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Speaker
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; two wires to the speaker positive and negative poles&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Assembly
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the wire coming from the speaker &lt;strong&gt;positive&lt;/strong&gt; pole to the amplifier &lt;strong&gt;OUT L+&lt;/strong&gt; hole&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the wire coming from the speaker &lt;strong&gt;negative&lt;/strong&gt; pole to the amplifier &lt;strong&gt;OUT L-&lt;/strong&gt; hole (it could’ve been R+ and R- since the audio output will be mono, meaning both the left and right channel will output the same signal)&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the wire coming from the audio jack &lt;strong&gt;tip&lt;/strong&gt; (left) to the amplifier &lt;strong&gt;L&lt;/strong&gt; hole&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the wire coming from the audio jack &lt;strong&gt;ring&lt;/strong&gt; (right) to the amplifier &lt;strong&gt;R&lt;/strong&gt; hole&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the wire coming from the audio jack &lt;strong&gt;sleeve&lt;/strong&gt; (ground) to the amplifier &lt;strong&gt;⏚&lt;/strong&gt; (ground) hole&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;You now have the full speaker assembly&lt;/strong&gt; with an audio jack and two female DuPont wires ready to be plugged.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-build-the-status-led-optional&quot;&gt;4. Build the status LED (optional)&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Cut&lt;/strong&gt; two DuPont wires and keep the &lt;em&gt;female&lt;/em&gt; part of each and &lt;strong&gt;strip&lt;/strong&gt; the other part&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; one of the wires to the resistor&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the resistor to the longest pin of the LED&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solder&lt;/strong&gt; the other wire to the other pin of the LED&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;5-prepare-the-case&quot;&gt;5. Prepare the case&lt;/h2&gt;
+
+&lt;p&gt;Here, &lt;strong&gt;it will all depend on the shape of your radio case&lt;/strong&gt;. Just make sure you have enough space for the whole stuff by trying different layouts. When you think you’re ready, then…&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Drill&lt;/strong&gt; two holes for the encoders&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Drill or cut&lt;/strong&gt; a rectangular hole for the micro-USB panel mount and two more aside it to screw it to the case&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Optional but very useful:&lt;/strong&gt; cut a hole for accessing the Pi micro-SD card without having to open the case.&lt;/p&gt;
+
+&lt;h2 id=&quot;6-install-everything&quot;&gt;6. Install everything&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Install the encoders&lt;/strong&gt; in their holes and screw the bolts&lt;/li&gt;
+  &lt;li&gt;If you can, &lt;strong&gt;screw the Pi to the case&lt;/strong&gt; so it won’t move. Else, find some magic trick in your maker head!&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Stick the breadboard&lt;/strong&gt; to the case&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Screw the panel mount&lt;/strong&gt; to the case&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;At this point&lt;/strong&gt;, you shouldn’t any moving parts in the radio case except the speaker assembly: everything is either screwed or glued to the case.&lt;/p&gt;
+
+&lt;h2 id=&quot;7-wire-it-up&quot;&gt;7. Wire it up&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Follow the following wiring schema and if needed, get help from &lt;a href=&quot;https://pinout.xyz&quot;&gt;pinout.xyz&lt;/a&gt; for identifying the pin numbers (BCM numbering is used across the project)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/XvqQmSJ.png&quot; alt=&quot;Wiring schematics&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;If you’re using the status LED, &lt;strong&gt;plug&lt;/strong&gt; the DuPont wire soldered to the resistor to the &lt;a href=&quot;https://pinout.xyz/pinout/pin22_gpio25#&quot;&gt;BCM 25 pin&lt;/a&gt;, and the other wire to a ground pin (either on the Pi or on the grounded rail of the breadboard)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Remove the &lt;strong&gt;USB DAC&lt;/strong&gt; plastic case to gain some space, and plug it into the Pi&lt;/li&gt;
+  &lt;li&gt;Plug the &lt;strong&gt;audio jack&lt;/strong&gt; into the &lt;strong&gt;USB DAC&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;The hardware part is done&lt;/strong&gt;, congratulations 🎉&lt;/p&gt;
+
+&lt;h1 id=&quot;software&quot;&gt;Software&lt;/h1&gt;
+
+&lt;h2 id=&quot;flash-raspbian-to-a-sd-card&quot;&gt;Flash Raspbian to a SD card&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Get the &lt;a href=&quot;https://downloads.raspberrypi.org/raspbian_latest&quot;&gt;latest &lt;strong&gt;Raspbian image&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Why not Raspbian Lite?&lt;/strong&gt; Because headless WiFi configuration seems buggy for now. However if you have access to an Ethernet cable, you can choose Raspbian Lite and skip the &lt;em&gt;wpa_supplicant.conf&lt;/em&gt; part below.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Flash it&lt;/strong&gt; to the micro-SD card with e.g. &lt;a href=&quot;https://etcher.io/&quot;&gt;Etcher&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Once flashed, remove it and put it back in your computer to be able to access the &lt;em&gt;/boot&lt;/em&gt; partition&lt;/li&gt;
+  &lt;li&gt;In a terminal, &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; into the micro-SD card and type the following commands&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;touch &lt;/span&gt;ssh &lt;span class=&quot;c&quot;&gt;# To enable ssh at first boot&lt;/span&gt;
+nano wpa_supplicant.conf &lt;span class=&quot;c&quot;&gt;# WiFi configuration at first boot&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Paste the following (edit with your own informations):&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;country=YOUR_COUNTRY_ISO_CODE
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+    ssid=&quot;YOUR_SSID&quot;
+    scan_ssid=1
+    psk=&quot;YOUR_SSID_KEY&quot;
+    key_mgmt=WPA-PSK
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Eject/unmount&lt;/strong&gt; the micro-SD card and put it in the Raspberry Pi&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Power on&lt;/strong&gt; the Raspberry Pi&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;You should now (after ~30s) be able to &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt; into your Raspberry Pi:&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh pi@raspberrypi.local&lt;/code&gt; (the password is &lt;em&gt;raspberry&lt;/em&gt;).&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I strongly suggest you change the password of &lt;code class=&quot;highlighter-rouge&quot;&gt;pi&lt;/code&gt; user or enable key file authentication at this point. The Pi won’t be powered a lot but it costs nothing and prevent any harm!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;install-the-software&quot;&gt;Install the software&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt; into your Raspberry Pi&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Run&lt;/strong&gt; the following commands:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;raspi-config &lt;span class=&quot;nt&quot;&gt;--expand-rootfs&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Makes the root partition fill up the micro-SD card&lt;/span&gt;
+wget https://raw.githubusercontent.com/raphaelyancey/Virtual_FM_Band/ftr_easy-wrapper/install.sh | bash &lt;span class=&quot;c&quot;&gt;# Good practice is to read the script before running it!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://raw.githubusercontent.com/raphaelyancey/Virtual_FM_Band/master/install.sh&quot;&gt;install script&lt;/a&gt; installs packages, clone the virtual radio software, installs required Python modules and creates a cron to run the virtual radio at boot.&lt;/p&gt;
+
+&lt;h2 id=&quot;prepare-and-transfer-the-audio-files&quot;&gt;Prepare and transfer the audio files&lt;/h2&gt;
+
+&lt;p&gt;The way it’s written at the moment, &lt;strong&gt;the virtual radio software consider each file to be a whole station&lt;/strong&gt;. But you probably have multiple files into a folder for each station of your soundtrack, so we’ll have to concate the files into one file.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The files must be mono-channel MP3s at 44.1k rate&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You might have to use some bash-fu to avoid typing the command for each file, take a look at &lt;code class=&quot;highlighter-rouge&quot;&gt;find&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;xargs&lt;/code&gt;!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Audio manipulations&lt;/strong&gt; can be done with the &lt;code class=&quot;highlighter-rouge&quot;&gt;sox&lt;/code&gt; swiss-army knife:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;For each file, run &lt;code class=&quot;highlighter-rouge&quot;&gt;sox file.ext -c 1 -r 44100 output/file.mp3&lt;/code&gt;(this will convert to MP3, reduce to one channel and convert to 44.1k if not already)&lt;/li&gt;
+  &lt;li&gt;Considering you have an output folder per station, concatenate all the files into one with &lt;code class=&quot;highlighter-rouge&quot;&gt;sox file1.mp3 file2.mp3 file3.mp3 [...] STATION_NAME.mp3&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At this point, &lt;strong&gt;you should have one file per virtual station&lt;/strong&gt;. We can now transfer them to the Pi.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Transfer&lt;/strong&gt; each station to the Pi with &lt;code class=&quot;highlighter-rouge&quot;&gt;scp STATION_NAME.mp3 pi@raspberrypi.local:/home/pi/audio/&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;To choose &lt;strong&gt;the order in which the stations will be played&lt;/strong&gt; next to each other, &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt; into your Pi and rename the stations following the &lt;strong&gt;alphabetical order&lt;/strong&gt; (e.g. prefix them with numbers to choose the order)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The virtual radio software reads the audio folder in alphabetical order and assigns virtual frequencies by following this order.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;all-done-&quot;&gt;All done 👏&lt;/h2&gt;
+
+&lt;p&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo reboot&lt;/code&gt; from your Pi and &lt;strong&gt;it should start after a few seconds&lt;/strong&gt; depending on the amount of files/stations that you have transfered.&lt;/p&gt;
+
+&lt;p&gt;Before unplugging the Pi power cord, run &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh pi@raspberrypi.local sudo shutdown -h now&lt;/code&gt; or you might corrupt the SD card. For the bad guys over here, if you don’t plan to do it anyway, at least unplug it when the Pi green LED isn’t bliking — meaning the micro-SD card isn’t being wrote on, meaning there is less chance to corrupt it.&lt;/p&gt;
+
+&lt;p&gt;You can also &lt;a href=&quot;https://www.raspberrypi.org/blog/adafruits-read-only/&quot;&gt;make Raspbian read-only&lt;/a&gt;, which I’ll try soon and maybe add to the installation script later on.&lt;/p&gt;
+
+&lt;p&gt;If everything runs perfectly, &lt;strong&gt;I strongly suggest you to backup your micro-SD&lt;/strong&gt; card in an image to be able to restore it in case it gets corrupted.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;troubleshooting&quot;&gt;Troubleshooting&lt;/h3&gt;
+
+&lt;p&gt;If the radio doesn’t start on boot:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Check that the script is launched with &lt;code class=&quot;highlighter-rouge&quot;&gt;ps aux | grep python&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;See that &lt;em&gt;pulseaudio&lt;/em&gt; is launched with &lt;code class=&quot;highlighter-rouge&quot;&gt;ps aux | grep pulse&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Try to launch the script yourself and see if it prints errors with &lt;code class=&quot;highlighter-rouge&quot;&gt;python2 /home/pi/app/src/main.py&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’d be happy to help either on Twitter &lt;a href=&quot;https://twitter.com/raphaelyancey&quot;&gt;@raphaelyancey&lt;/a&gt; or on Github if you think the issue is related to either &lt;a href=&quot;https://github.com/raphaelyancey/Virtual_FM_Band&quot;&gt;Virtual_FM_Band&lt;/a&gt; or &lt;a href=&quot;https://github.com/raphaelyancey/pyKY040&quot;&gt;pyKY040&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;div&gt;&lt;small&gt;&lt;i&gt;Updated on 2018/09/06 — Revision 1&lt;/i&gt;&lt;/small&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry><entry><title type="html">Setting up a Django OAuth2 server &amp;amp; client</title><link href="https://raphaelyancey.fr/en/2018/05/28/setting-up-django-oauth2-server-client.html" rel="alternate" type="text/html" title="Setting up a Django OAuth2 server &amp; client" /><published>2018-05-28T18:07:51+02:00</published><updated>2018-05-28T18:07:51+02:00</updated><id>https://raphaelyancey.fr/en/2018/05/28/setting-up-django-oauth2-server-client</id><content type="html" xml:base="https://raphaelyancey.fr/en/2018/05/28/setting-up-django-oauth2-server-client.html">&lt;p&gt;&lt;a href=&quot;https://github.com/django/django/tree/2.0.5&quot;&gt;&lt;img src=&quot;https://img.shields.io/badge/django-2.0.5-blue.svg&quot; alt=&quot;django 2.0.5&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;https://github.com/pennersr/django-allauth/tree/0.36.0&quot;&gt;&lt;img src=&quot;https://img.shields.io/badge/django--allauth-0.36.0-blue.svg&quot; alt=&quot;django-allauth 0.36.0&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;https://github.com/jazzband/django-oauth-toolkit/tree/1.1.2&quot;&gt;&lt;img src=&quot;https://img.shields.io/badge/django--oauth--toolkit-1.1.2-blue.svg&quot; alt=&quot;django-oauth-toolkit 1.1.2&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;context&quot;&gt;Context&lt;/h2&gt;
+
+&lt;h4 id=&quot;in-the-process-of-renewing-the-ircam-forum-website-we--ircam-researchcreation-interfaces-and-web-departments--are-setting-up-a-unified-ircam-authentication-server&quot;&gt;In the process of renewing the &lt;a href=&quot;http://forumnet.ircam.fr&quot;&gt;Ircam Forum&lt;/a&gt; website, we — Ircam &lt;em&gt;Research/Creation Interfaces&lt;/em&gt; and &lt;em&gt;Web&lt;/em&gt; departments — are setting up a unified Ircam authentication server.&lt;/h4&gt;
+
+&lt;p&gt;The authentication server should be able to handle signup, login and basic profile edition for all the Ircam applications, should they be browser-based or not. &lt;strong&gt;We chose OAuth2 for its thorough testing, approved production results and the already available software integrations in a lot of languages and frameworks.&lt;/strong&gt; It’s the best bet for the future.&lt;/p&gt;
+
+&lt;p&gt;As most of &lt;a href=&quot;https://www.ircam.fr&quot;&gt;Ircam&lt;/a&gt; websites are based on the Python Django framework and for its simplicity, we also chose Django for hosting the OAuth2 server.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;In this post we will set up two Django applications:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;The OAuth2 server&lt;/strong&gt;, storing the user accounts&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;A client application&lt;/strong&gt;, identifying its users through the OAuth2 server&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;… using &lt;a href=&quot;https://github.com/pennersr/django-allauth&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;django-allauth&lt;/code&gt;&lt;/a&gt; for the client and &lt;a href=&quot;https://github.com/jazzband/django-oauth-toolkit&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;django-oauth-toolkit&lt;/code&gt;&lt;/a&gt; for the server.&lt;/p&gt;
+
+&lt;h4 id=&quot;you-can-find-the-example-stack-in-the-form-of-a-docker-composition-on-github&quot;&gt;You can find the example stack in the form of a Docker composition &lt;a href=&quot;https://github.com/raphaelyancey/django-oauth2-example&quot;&gt;on GitHub&lt;/a&gt;.&lt;/h4&gt;
+
+&lt;h2 id=&quot;tldr--plug-and-play-demo&quot;&gt;TL;DR — plug-and-play demo&lt;/h2&gt;
+
+&lt;p&gt;You can launch the demo in no time with &lt;a href=&quot;https://docs.docker.com/install/&quot;&gt;Docker&lt;/a&gt;, or serve each app individually the Django way.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/raphaelyancey/django-oauth2-example
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;django-oauth2-example
+docker-compose up &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;
+docker-compose &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;client python manage.py migrate
+docker-compose &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;client python manage.py createsuperuser
+docker-compose &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;server python manage.py migrate
+docker-compose &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;server python manage.py createsuperuser
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then jump to &lt;a href=&quot;#registering-the-client-application&quot;&gt;Registering the client application&lt;/a&gt; to allow the client app to connect to the OAuth2 server and try it live.&lt;/p&gt;
+
+&lt;h2 id=&quot;setting-up-the-server&quot;&gt;Setting up the server&lt;/h2&gt;
+
+&lt;p&gt;Please see the official &lt;a href=&quot;https://django-oauth-toolkit.readthedocs.io&quot;&gt;django-oauth-toolkit documentation&lt;/a&gt; for further informations.&lt;/p&gt;
+
+&lt;h4 id=&quot;requirements-see-serverrequirementstxt&quot;&gt;Requirements (see &lt;code class=&quot;highlighter-rouge&quot;&gt;server/requirements.txt&lt;/code&gt;)&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install django==2.0.5
+pip install django-oauth-tooltkit==1.1.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;serversettingspy&quot;&gt;server/settings.py&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'oauth2_provider'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;MIDDLEWARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Important: first position !&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'oauth2_provider.middleware.OAuth2TokenMiddleware'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Important to avoid conflicts with the client app&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# also setting its own `sessionid` cookie.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Mitigates the PermissionDenied exception bug when&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# both client and server are running under the same domain,&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# also known as `socialaccount_state` bug&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;SESSION_COOKIE_NAME&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'oauth2server_sessionid'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;serverurlspy&quot;&gt;server/urls.py&lt;/h4&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;server.app&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# OAuth2 server URLs&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;re_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'^o/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'oauth2_provider.urls'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'oauth2_provider'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# Logged-in user profile endpoint&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;re_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'^profile/$'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;serverappviewspy&quot;&gt;server/app/views.py&lt;/h4&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.shortcuts&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;oauth2_provider.decorators&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protected_resource&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.http&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponse&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;json&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# The protected user profile endpoint that will be called&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# upon successful sign-in to populate the client app database&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;@protected_resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scopes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'read'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;profile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dumps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource_owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;username&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource_owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;email&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource_owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;first_name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource_owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;last_name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource_owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last_name&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;application/json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;finishing&quot;&gt;Finishing&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Do not forget to initialize the database&lt;/strong&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose up -d &amp;amp;&amp;amp; docker-compose exec server python manage.py migrate&lt;/code&gt;  or &lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py migrate&lt;/code&gt; if you’re not using the Docker example.&lt;/p&gt;
+
+&lt;p&gt;Then, &lt;strong&gt;create a superuser&lt;/strong&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose up -d &amp;amp;&amp;amp; docker-compose exec server python manage.py createsuperuser&lt;/code&gt; or just &lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py createsuperuser&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;setting-up-the-client&quot;&gt;Setting up the client&lt;/h2&gt;
+
+&lt;p&gt;Please see the official &lt;a href=&quot;https://django-allauth.readthedocs.io&quot;&gt;django-allauth documentation&lt;/a&gt; for further informations.&lt;/p&gt;
+
+&lt;h4 id=&quot;requirements-see-clientrequirementstxt&quot;&gt;Requirements (see &lt;code class=&quot;highlighter-rouge&quot;&gt;client/requirements.txt&lt;/code&gt;)&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install django==2.0.5
+pip install django-allauth==0.36.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;clientsettingspy&quot;&gt;client/settings.py&lt;/h4&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# The following Django apps are required&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'django.contrib.auth'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'django.contrib.sites'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+
+    &lt;span class=&quot;s&quot;&gt;'allauth'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'allauth.account'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'allauth.socialaccount'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'customprovider'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Our custom provider&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;AUTHENTICATION_BACKENDS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Needed to login by username in Django admin, regardless of `allauth`&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'django.contrib.auth.backends.ModelBackend'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# `allauth` specific authentication methods, such as login by e-mail&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'allauth.account.auth_backends.AuthenticationBackend'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;SITE_ID&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# It's important that the domain follows the RFC 1034/1035 or else Django will complain&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# This URL is defined as an extra host in client/docker-compose.yml&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# We use the exposed port and not the host port because this URL will be fetched programmatically by the container&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;OAUTH_SERVER_BASEURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'http://my-oauth2-server.dev:8000'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;clienturlspy&quot;&gt;client/urls.py&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;client.app&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# [...]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;re_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'^accounts/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'allauth.urls'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;re_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'^accounts/profile$'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProfileView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;clientappviewspy&quot;&gt;client/app/views.py&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.views.generic.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TemplateView&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ProfileView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TemplateView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;template_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;profile.html&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;clientcustomproviderproviderpy&quot;&gt;client/customprovider/provider.py&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;allauth.socialaccount&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;providers&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;allauth.socialaccount.providers.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProviderAccount&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;allauth.socialaccount.providers.oauth2.provider&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OAuth2Provider&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CustomAccount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProviderAccount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CustomProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAuth2Provider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+
+    &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'customprovider'&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'My Custom OAuth2 Provider'&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;account_class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CustomAccount&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;extract_uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'id'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;extract_common_fields&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pprint&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pprint&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'username'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'email'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;first_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'first_name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;last_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'last_name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_default_scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'read'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;providers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;clientcustomproviderurlspy&quot;&gt;client/customprovider/urls.py&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;allauth.socialaccount.providers.oauth2.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default_urlpatterns&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.provider&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CustomProvider&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default_urlpatterns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;clientcustomproviderviewspy&quot;&gt;client/customprovider/views.py&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;requests&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;allauth.socialaccount.providers.oauth2.views&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAuth2Adapter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OAuth2LoginView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OAuth2CallbackView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.provider&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CustomProvider&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;settings&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CustomAdapter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAuth2Adapter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;provider_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CustomProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# Fetched programmatically, must be reachable from container&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;access_token_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'{}/o/token/'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAUTH_SERVER_BASEURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;profile_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'{}/profile/'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAUTH_SERVER_BASEURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# Accessed by the user browser, must be reachable by the host&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;authorize_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'{}/o/authorize/'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'http://localhost:9977'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# NOTE: trailing slashes in URLs are important, don't miss it&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;complete_login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Authorization'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Bearer {0}'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;requests&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;profile_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;extra_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_provider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sociallogin_from_response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extra_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;oauth2_login&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OAuth2LoginView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adapter_view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomAdapter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;oauth2_callback&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OAuth2CallbackView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adapter_view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomAdapter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;finishing-1&quot;&gt;Finishing&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Do not forget to initialize the database&lt;/strong&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose up -d &amp;amp;&amp;amp; docker-compose exec client python manage.py migrate&lt;/code&gt;  or &lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py migrate&lt;/code&gt; if you’re not using the Docker example.&lt;/p&gt;
+
+&lt;p&gt;Then, &lt;strong&gt;create a superuser&lt;/strong&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose up -d &amp;amp;&amp;amp; docker-compose exec client python manage.py createsuperuser&lt;/code&gt; or just &lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py createsuperuser&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Also &lt;strong&gt;create a regular user&lt;/strong&gt; to test the login with at &lt;a href=&quot;http://localhost:9988/admin/auth/user/add/&quot;&gt;http://localhost:9988/admin/auth/user/add/&lt;/a&gt;. It could otherwise work with your superuser account, but in case you used the same admin username in the server and the client, the client will tell you the username is already taken.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#registering-the-client-application&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;registering-the-client-application&quot;&gt;Registering the client application&lt;/h2&gt;
+
+&lt;h3 id=&quot;on-the-server&quot;&gt;On the server&lt;/h3&gt;
+
+&lt;p&gt;Like you’re supposed to do when using any OAuth2 provider — be it Facebook or Github, &lt;strong&gt;you must tell the server which application is allowed to use the OAuth2 authentication&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;For that, go to &lt;a href=&quot;http://localhost:9977/o/applications/register/&quot;&gt;http://localhost:9977/o/applications/register/&lt;/a&gt; (the server), log in as the superuser you created and fill in the name, client type (&lt;em&gt;Confidential&lt;/em&gt;), authorization grant type (&lt;em&gt;Authorization code&lt;/em&gt;) and redirect URI (&lt;em&gt;http://localhost:9988/accounts/customprovider/login/callback/&lt;/em&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/qsTFhlL.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;on-the-client&quot;&gt;On the client&lt;/h2&gt;
+
+&lt;p&gt;Now, &lt;strong&gt;we must tell our client Django application what are its credentials to be allowed to use the server as an authentication backend&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;For that, go on &lt;a href=&quot;http://localhost:9988/admin/socialaccount/socialapp/add/&quot;&gt;http://localhost:9988/admin/socialaccount/socialapp/add/&lt;/a&gt; and fill in the form with the informations we just got. Don’t forget to select our custom provider in the &lt;em&gt;Provider&lt;/em&gt; field.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/yk1YabA.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;all-done-&quot;&gt;All done 🙌&lt;/h2&gt;
+
+&lt;p&gt;At this point, the server will allow our client app to request whatever it needs to authenticate its users against its database. Let’s try it!&lt;/p&gt;
+
+&lt;p&gt;Launch the containers with &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose up -d&lt;/code&gt; if not already done, or run the servers if not using the Docker example with &lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py runserver 0.0.0.0:XXXX&lt;/code&gt; (replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;XXXX&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;9988&lt;/code&gt; for client and &lt;code class=&quot;highlighter-rouge&quot;&gt;9977&lt;/code&gt; for server).&lt;/p&gt;
+
+&lt;p&gt;Then go to &lt;a href=&quot;http://localhost:9988/accounts/profile&quot;&gt;http://localhost:9988/accounts/profile&lt;/a&gt;, click &lt;em&gt;Login&lt;/em&gt; and follow the steps!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/vsXqUkw.gifv&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;note-on-urls&quot;&gt;Note on URLs&lt;/h3&gt;
+
+&lt;p&gt;In production, the OAuth2 server and the client app would be on the same network a.k.a. the Internet 🌍. In development with Docker, we must make the server reachable from the client container through a valid URL (because Django makes it mandatory). Therefore we specify it in the &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose.yml&lt;/code&gt; with&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;links&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;server:my-oauth2-server.dev&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;troubleshooting&quot;&gt;Troubleshooting&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Perform your login tests in a private navigation window (a.k.a &lt;em&gt;Incognito&lt;/em&gt; mode) to dismiss all the cookies that have been set while using the Django admin on each app — or at least be sure you’re logged out.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Flush out the &lt;code class=&quot;highlighter-rouge&quot;&gt;Session&lt;/code&gt; objects in both apps either from the admin (&lt;a href=&quot;https://github.com/raphaelyancey/django-oauth2-example/blob/master/client/client/app/admin.py#L2-L4&quot;&gt;How to enable sessions management in the Django admin ?&lt;/a&gt;) or manually in the Django shell&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;div&gt;&lt;small&gt;&lt;i&gt;Updated on 2018/06/08 — Revision 1&lt;/i&gt;&lt;/small&gt;&lt;/div&gt;
+&lt;p&gt;&lt;small&gt;Thanks to &lt;a href=&quot;https://twitter.com/yomguy&quot;&gt;Guillaume Pellerin&lt;/a&gt; 🙏&lt;/small&gt;&lt;/p&gt;</content><author><name></name></author><category term="programming" /><category term="python" /><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry><entry><title type="html">Checklist d’achat d’un Macbook Pro d’occasion</title><link href="https://raphaelyancey.fr/fr/2017/10/18/checklist-achat-macbook-pro-occasion.html" rel="alternate" type="text/html" title="Checklist d'achat d'un Macbook Pro d'occasion" /><published>2017-10-18T18:07:51+02:00</published><updated>2017-10-18T18:07:51+02:00</updated><id>https://raphaelyancey.fr/fr/2017/10/18/checklist-achat-macbook-pro-occasion</id><content type="html" xml:base="https://raphaelyancey.fr/fr/2017/10/18/checklist-achat-macbook-pro-occasion.html">&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/ZvvFSxP.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;J’ai récemment changé mon Macbook Pro Unibody Mid-2010 pour un Mid-2012&lt;/strong&gt; (le dernier modèle à peu près customisable au niveau de la RAM, des disques et de la batterie — &lt;strong&gt;les Retina sont &lt;a href=&quot;https://www.ifixit.com/Device/MacBook_Pro_15%22_Retina_Display_Mid_2012&quot;&gt;pas loin d’irréparables&lt;/a&gt;&lt;/strong&gt;, tous notés 1/10 en réparabilité par iFixit). Vu qu’il n’était plus en vente dans le circuit du neuf, je me suis dirigé vers le marché de l’occasion. Dangereux pour un ordinateur me direz-vous, mais je me suis fait une checklist de vérification sur place pour être sûr de le ramener en bon état…&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;&lt;strong&gt;Cette liste n’est pas exhaustive mais s’assure de certains aspects dont j’ai évalué la fragilité en 7 ans d’utilisation du Macbook Pro Mid-2010.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Les prix sont basés sur ceux de &lt;a href=&quot;https://ifixit.com&quot;&gt;iFixit&lt;/a&gt;, pour moi la référence en documentation pour réparer son matériel et en achat de pièces détachées Apple. Et les liens ne sont pas sponsorisés, ça vient vraiment du coeur :)&lt;/p&gt;
+
+&lt;h2 id=&quot;charnières-décran&quot;&gt;Charnières d’écran&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/RqL7UfC.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;TEST →&lt;/strong&gt; ouvrir et fermer l’écran, entièrement puis seulement partiellement (“jouer” un peu avec).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✔ OK →&lt;/strong&gt; il n’y a pas de jeu dans les charnières, l’écran s’arrête bien à la position dans laquelle on le laisse, qu’il soit proche de la fermeture ou ouvert au maximum.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✖ NOK →&lt;/strong&gt; il y a du jeu, on sent que l’écran est mal fixé au corps de l’ordinateur. En jouant avec les coins inférieurs (lorsqu’ouvert en face de soi) avec des mouvements de va-et-vient, si on se rend compte qu’il y a également du jeu c’est que les charnières sont complètement déserrées.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;SOLUTION →&lt;/strong&gt; un coup de tournevis — &lt;a href=&quot;https://fr.ifixit.com/Guide/MacBook+Pro+15-Inch+Unibody+Mid+2012+Display+Replacement/10760#s26136&quot;&gt;l’étape 12&lt;/a&gt; du tutoriel iFixit nous montre les vis en question (il faut donc suivre le tutoriel jusqu’à l’étape 12).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;clavier&quot;&gt;Clavier&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/JG18siu.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;PRÉPARATION →&lt;/strong&gt; afficher le visualiseur de clavier (&lt;code class=&quot;highlighter-rouge&quot;&gt;Préférences&lt;/code&gt; &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Clavier&lt;/code&gt; &amp;gt; cocher &lt;code class=&quot;highlighter-rouge&quot;&gt;Afficher le visualiseur de clavier, d'Emojis et de symboles dans la barre de menu&lt;/code&gt; en bas puis sélectionnez-le dans la barre de menu).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;TEST →&lt;/strong&gt; appuyer sur chacune des touches du clavier.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✔ OK →&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Toutes les touches répondent (y compris les combinaisons de touches) et se mettent bien en surbrillance dans le visualiseur de clavier.&lt;/li&gt;
+    &lt;li&gt;Le feeling est le même sur toutes les touches (pas de touche qui semble plus douce ou dure que les autres — témoin probable d’un épanchement de liquide).&lt;/li&gt;
+    &lt;li&gt;Les grandes touches (&lt;code class=&quot;highlighter-rouge&quot;&gt;Entrée&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Espace&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Majuscule&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Shift Droite&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Effacer&lt;/code&gt;) répondent de façon identique peu importe la zone où on les frappe. En effet, &lt;strong&gt;ces touchent sont les quelques unes qui nécessitent plusieurs ressorts&lt;/strong&gt; (des “tétines” en caoutchouc en l’occurrence) ce qui augmente la probabilité que l’un d’eux soit défectueux. Exception : la touche &lt;code class=&quot;highlighter-rouge&quot;&gt;Majuscule&lt;/code&gt; doit être frappée légèrement plus longtemps que les autres pour être activée (it’s not a bug, &lt;a href=&quot;https://web.archive.org/web/20140819034118/http://support.apple.com/kb/HT1192&quot;&gt;it’s a feature&lt;/a&gt; !).&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✖ NOK →&lt;/strong&gt; l’un des tests OK ci-dessus n’est pas passé.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;SOLUTION →&lt;/strong&gt; le changer soi-même (150-200$) ou le faire changer.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;trackpad&quot;&gt;Trackpad&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/MqzFHUZ.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;TEST →&lt;/strong&gt; appuyer sur toutes les zones du trackpad.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✔ OK →&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;La zone inférieure (celle du clic) répond bien et le son est sec (&lt;em&gt;*clic*&lt;/em&gt;) plutôt qu’étouffé (&lt;em&gt;*cloc*&lt;/em&gt;).&lt;/li&gt;
+    &lt;li&gt;Tout le trackpad garde bien la trace des mouvements, il n’y a pas de zone morte.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✖ NOK →&lt;/strong&gt; l’un des tests OK ci-dessus n’est pas passé.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;SOLUTION →&lt;/strong&gt; le changer soi-même (50-100$) ou le faire changer.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;entrées-audio&quot;&gt;Entrées audio&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/Fc6bjzx.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;PRÉPARATION →&lt;/strong&gt; munissez-vous d’un câble mini-jack mâle-mâle pour relier une source audio à l’ordinateur (par exemple un smartphone ou un baladeur) ainsi que d’un casque ou d’une paire d’écouteurs.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;TEST →&lt;/strong&gt; ouvrir le panneau de préférences &lt;code class=&quot;highlighter-rouge&quot;&gt;Son&lt;/code&gt;. Dans l’onglet &lt;code class=&quot;highlighter-rouge&quot;&gt;Entrées&lt;/code&gt; sélectionner l’entrée à tester : &lt;em&gt;Microphone interne&lt;/em&gt; ou &lt;em&gt;Entrée de ligne&lt;/em&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✔ OK →&lt;/strong&gt; pour chacune des deux entrées, le niveau d’entrée (situé en-dessous de la zone de sélection) varie bien. Pensez bien à jouer un son depuis votre source externe lorsque vous testez l’entrée ligne.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✖ NOK →&lt;/strong&gt; l’un des tests OK ci-dessus n’est pas passé.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;SOLUTION →&lt;/strong&gt; les entrées étant reliées à la carte mère, il faudra la changer soi-même (assez compliqué) ou la faire changer. Dans les deux cas c’est très cher donc à vous de juger si ça vaut le coup compte tenu du prix de l’ordinateur.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;sorties-audio&quot;&gt;Sorties audio&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/GEE8pUM.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;TEST →&lt;/strong&gt; jouer un son depuis iTunes ou un navigateur. Ouvrir le panneau de préférences &lt;code class=&quot;highlighter-rouge&quot;&gt;Son&lt;/code&gt;. Dans l’onglet &lt;code class=&quot;highlighter-rouge&quot;&gt;Sorties&lt;/code&gt; sélectionner &lt;code class=&quot;highlighter-rouge&quot;&gt;Hauts-parleurs internes&lt;/code&gt; puis mettre la balance à gauche toutes puis à droite toutes, pour tester chacun des hauts-parleurs. Brancher les écouteurs et vérifier que le son ne grésille pas et n’est pas sensible si on joue légèrement avec le jack dans la prise.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✔ OK →&lt;/strong&gt; les deux hauts-parleurs fonctionnent ainsi que la sortie jack.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✖ NOK →&lt;/strong&gt; le son s’arrête lorsque la balance est d’un côté et/ou le son ne sort pas dans les écouteurs.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;SOLUTION →&lt;/strong&gt; changer les hauts-parleurs soi-même (10-20$) ou les faire changer. Si c’est la sortie jack qui ne fonctionne pas, il faudra changer la carte mère (voir &lt;em&gt;SOLUTION&lt;/em&gt; de &lt;em&gt;Entrées audio&lt;/em&gt;).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;batterie&quot;&gt;Batterie&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/I7yqWb5.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;PRÉPARATION →&lt;/strong&gt; télécharger et installer &lt;a href=&quot;http://www.coconut-flavour.com/coconutbattery/&quot;&gt;Coconut Battery&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;TEST →&lt;/strong&gt; lancer Coconut Battery.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✔ OK →&lt;/strong&gt; la batterie a moins de 600 cycles de recharge, et sa capacité maximale n’est pas inférieure à 60% de sa capacité initiale (à ajuster selon le prix qu’on vous en propose).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✖ NOK →&lt;/strong&gt; plus de 600 cycles et une capacité maximale inférieure à 60%, ce qui veut dire qu’elle a déjà bien vécue et ne tient probablement pas plus de 2 heures.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;SOLUTION →&lt;/strong&gt; changer la batterie soi-même au besoin (~90$) ou la faire changer.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;écran-pixels-morts&quot;&gt;Écran, pixels morts&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/05ajxng.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;TEST →&lt;/strong&gt; se rendre sur &lt;a href=&quot;http://jasonfarrell.com/misc/deadpixeltest.php&quot;&gt;cette page&lt;/a&gt; et ouvrir chacune des pages de couleur dans des onglets. Pour chaque onglet, vérifier qu’il n’y a aucun pixel mort et passer au suivant.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✔ OK →&lt;/strong&gt; aucun pixel mort.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;✖ NOK →&lt;/strong&gt; il y a des pixels morts.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;SOLUTION →&lt;/strong&gt; selon le nombre de pixels morts, changer l’écran soi-même (400-600$) ou le faire changer.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;autres&quot;&gt;Autres&lt;/h2&gt;
+
+&lt;p&gt;Sans trop rentrer dans les détails, &lt;strong&gt;il est judicieux de vérifier également que les éléments suivants fonctionnent bien&lt;/strong&gt; :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Connecteur Magsafe&lt;/li&gt;
+  &lt;li&gt;Webcam&lt;/li&gt;
+  &lt;li&gt;Variation de la luminosité de l’écran&lt;/li&gt;
+  &lt;li&gt;Variation de la luminosité du clavier&lt;/li&gt;
+  &lt;li&gt;Ports USB, FireWire, Thunderbolt / Mini DisplayPort&lt;/li&gt;
+  &lt;li&gt;Lecteur de carte SD&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Une bonne chose à faire également est de lancer l’utilitaire &lt;strong&gt;&lt;a href=&quot;https://support.apple.com/fr-fr/HT201257&quot;&gt;Apple Hardware Test&lt;/a&gt;&lt;/strong&gt; qui va tester plusieurs composants internes.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/ObDIpCC.jpg?1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Ces quelques tests et un peu de bon sens vous permettrons de vous assurer de l’état d’un Macbook Pro&lt;/strong&gt;. Selon le prix auquel vous pouvez l’acheter, il est parfois intéressant de changer quelques pièces soi-même si tout n’est pas nickel à l’achat.&lt;/p&gt;
+
+&lt;p&gt;Pour la plupart des pièces ce n’est pas très compliqué, &lt;strong&gt;un peu de patience et de délicatesse feront amplement l’affaire&lt;/strong&gt; — la joie d’avoir réparé un truc soi-même et d’avoir économisé des centaines d’euros au passage n’est pas négligeable :)&lt;/p&gt;</content><author><name></name></author><category term="apple" /><category term="macbook" /><category term="checklist" /><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry><entry><title type="html">One-liner to mount your RaspberryPi with NFS</title><link href="https://raphaelyancey.fr/en/2017/06/28/one-liner-mount-raspberry-pi-nfs.html" rel="alternate" type="text/html" title="One-liner to mount your RaspberryPi with NFS" /><published>2017-06-28T18:07:51+02:00</published><updated>2017-06-28T18:07:51+02:00</updated><id>https://raphaelyancey.fr/en/2017/06/28/one-liner-mount-raspberry-pi-nfs</id><content type="html" xml:base="https://raphaelyancey.fr/en/2017/06/28/one-liner-mount-raspberry-pi-nfs.html">&lt;h4 id=&quot;a-very-useful-script-for-allowing-remote-code-edition-on-a-raspberrypi&quot;&gt;A very useful script for allowing remote code edition on a RaspberryPi.&lt;/h4&gt;
+
+&lt;p&gt;… or really any Debian-based machine :)&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/raphaelyancey/b9c6a297b7bb52eb8aba1b4de01cb641.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;Make sure you’ve installed the packages in the top comment, and added the mentionned line to your &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/exports&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;Place the script in your home folder (&lt;code class=&quot;highlighter-rouge&quot;&gt;/home/pi&lt;/code&gt; by default) and rename it to &lt;code class=&quot;highlighter-rouge&quot;&gt;nfs-start.sh&lt;/code&gt;. Allow execution with &lt;code class=&quot;highlighter-rouge&quot;&gt;chmod +x nfs-start.sh&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Each time you want to remotely edit files on your RaspberryPi, launch the script with &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh pi@[hostname-or-ip] ./nfs-start.sh&lt;/code&gt;.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, on OSX / macOs, open the Finder and hit &lt;code class=&quot;highlighter-rouge&quot;&gt;⌘ + K&lt;/code&gt;. Add your server like so : &lt;code class=&quot;highlighter-rouge&quot;&gt;nfs://[hostname-or-ip]/home&lt;/code&gt; and you’re done!
+Next time, the server will already be listed and you won’t have to type it again.&lt;/p&gt;</content><author><name></name></author><category term="raspberrypi" /><category term="linux" /><summary type="html">A very useful script for allowing remote code edition on a RaspberryPi.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry><entry><title type="html">Treasure hunt music collaboration</title><link href="https://raphaelyancey.fr/en/2017/04/26/treasure-hunt-music-collaboration.html" rel="alternate" type="text/html" title="Treasure hunt music collaboration" /><published>2017-04-26T18:07:51+02:00</published><updated>2017-04-26T18:07:51+02:00</updated><id>https://raphaelyancey.fr/en/2017/04/26/treasure-hunt-music-collaboration</id><content type="html" xml:base="https://raphaelyancey.fr/en/2017/04/26/treasure-hunt-music-collaboration.html">&lt;h2 id=&quot;tldr&quot;&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;You can listen to this ping-pong, but the point is in the realisation so &lt;strong&gt;I encourage you to read how it’s made&lt;/strong&gt; (the links make you jump to the desired section below).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#batch1&quot;&gt;&lt;strong&gt;Batch #1&lt;/strong&gt;&lt;/a&gt; (him)
+&lt;br /&gt;&lt;audio src=&quot;/assets/audio/batch1.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;&lt;br /&gt;
+&lt;a href=&quot;#batch2&quot;&gt;&lt;strong&gt;Batch #2&lt;/strong&gt;&lt;/a&gt; (me)
+&lt;br /&gt;&lt;audio src=&quot;/assets/audio/batch2.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;&lt;br /&gt;
+&lt;a href=&quot;#batch3&quot;&gt;&lt;strong&gt;Batch #3&lt;/strong&gt;&lt;/a&gt; (him)
+&lt;br /&gt;&lt;audio src=&quot;/assets/audio/batch3.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;&lt;br /&gt;
+&lt;a href=&quot;#batch4&quot;&gt;&lt;strong&gt;Batch #4&lt;/strong&gt;&lt;/a&gt; (me)
+&lt;br /&gt;&lt;audio src=&quot;/assets/audio/batch4.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I have a long-time friend now living 500 kilometers away from me, with whom I share similar music tastes. He recently got into making music with analog gear (cassettes recorders and stuff) and I recently switched from a “computer music station” to a full-analog setup in which the MPC1000 takes the main role, making music as a hobbie for almost 10 years now.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;This post is a summary of a music collaboration my friend and I are doing. In the web era and easier-than-ever digital collaboration, our not-so-much guideline is to use different supports to record and/or play the successive versions we send each other.&lt;/strong&gt; In other words, to make it complicated, like a treasure hunt. To create a story, an atmosphere this whole collab. The real guideline is just to have fun making it :)&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;a name=&quot;batch1&quot; id=&quot;batch1&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;batch-1-him&quot;&gt;Batch #1 (him)&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/heyKiqa.jpg?2&quot; alt=&quot;A looped cassette&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is what I received in the mailbox: the first piece of music to begin our collab. It’s a &lt;strong&gt;looped cassette&lt;/strong&gt;. It plays like a usual cassette but never ends, because both ends of the tape are glued together. &lt;a href=&quot;http://www.instructables.com/id/Audio-Cassette-Loop&quot;&gt;Here is a tutorial on how to make one&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is the extract (&lt;strong&gt;WARNING, the level is loud!&lt;/strong&gt;), played with a cassette walkman&lt;/p&gt;
+
+&lt;audio src=&quot;/assets/audio/batch1.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;a name=&quot;batch2&quot; id=&quot;batch2&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;batch-2-me&quot;&gt;Batch #2 (me)&lt;/h1&gt;
+
+&lt;p&gt;I loaded the extract in my MPC1000 and worked the loop with a bit of delay from the Boss RE-20&lt;/p&gt;
+
+&lt;audio src=&quot;/assets/audio/batch2.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;
+
+&lt;p&gt;Then I sent my friend a rather mysterious message…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/FntB669.jpg?1&quot; alt=&quot;A morse code&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That’s morse code printed on a white sheet, on which I dropped some coffee and burned the edges. It translates to an URL on which I uploaded the following bare web page.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/1Fkok28.png?1&quot; alt=&quot;The webpage from the morse code&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Clicking on the image would play the audio in a loop.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;a name=&quot;batch3&quot; id=&quot;batch3&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;batch-3-him&quot;&gt;Batch #3 (him)&lt;/h1&gt;
+
+&lt;p&gt;I received a big enveloppe containing what seemed to be an army file with several sheets about a fighter pilot and diverse missions he has done during WWII.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/EOCkC0Z.jpg?1&quot; alt=&quot;The army file&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On one of the sheets I could read the following&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It’s on April 25th 1994 that the incident occurred. During the exercise, an UFO entered the flight zone and seemed to follow us at reasonable distance. […] It looked like an observation approach rather than a fighting approach. Jacques M. plane didn’t follow the usual procedure, the radio link with him was impossible. The UFO was chased by Jacques M. and taken down at 5.52PM. Once back to the ground, Jacques M. behaviour became very strange. He seemed to not recover from recent events, he was in a kind of traumatic amnesia. He kept repeating during 2 minutes the following number : 05459092XX&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As you can see, I redacted the last digits. It’s a phone number, that I indeed called. It rang, and a voicemail began to transmit was I expected, the third batch he made !&lt;/p&gt;
+
+&lt;audio src=&quot;/assets/audio/batch3.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;a name=&quot;batch4&quot; id=&quot;batch4&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;batch-4-me&quot;&gt;Batch #4 (me)&lt;/h1&gt;
+
+&lt;p&gt;The idea was to transmit the track over the air, on the FM band. I quickly looked if it was possible, and I found this wonderful software: &lt;a href=&quot;https://github.com/rm-hull/pifm&quot;&gt;PiFM&lt;/a&gt;. It allows you to do exactly that, with a single wire as the antenna. I never thought this was possible! &lt;strong&gt;Please note that it is illegal to emit on the FM band without authorization in most countries.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://imgur.com/a/xPHcy&quot; title=&quot;Some other pictures of the pirate radio&quot;&gt;&lt;img src=&quot;https://i.imgur.com/g1HGtd2.jpg?2&quot; alt=&quot;Pirate radio&quot; style=&quot;width: 45%;&quot; /&gt;&lt;/a&gt; &lt;a href=&quot;https://imgur.com/a/xPHcy&quot; title=&quot;Some other pictures of the pirate radio&quot;&gt;&lt;img src=&quot;https://i.imgur.com/f0JVrJn.jpg&quot; alt=&quot;Pirate radio&quot; style=&quot;width: 45%;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The challenge for my friend was first to figure out this little black box was a radio, then to find the frequency it emitted on.
+I spent a lot of time on this, mostly for building the battery circuit with the &lt;a href=&quot;https://github.com/NeonHorizon/lipopi/blob/master/README.power_up_power_down.md&quot;&gt;LiPoPi tutorial&lt;/a&gt; and building the &lt;strong&gt;cardboard&lt;/strong&gt; case: it’s 3mm thick black cardboard (foam-coardboard as translated from french, not regular cardboard) with Meccano pieces to both harden it and give it this badass look-and-feel. Two LEDs for indicating the power and broadcasting status, a switch, et voilà!&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;iframe width=&quot;640&quot; height=&quot;360&quot; src=&quot;https://www.youtube-nocookie.com/embed/adMJqoLPGqg?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, here is my version of the collab the radio was transmitting&lt;/p&gt;
+
+&lt;audio src=&quot;/assets/audio/batch4.mp3&quot; controls=&quot;&quot;&gt;&lt;/audio&gt;
+
+&lt;hr /&gt;
+
+&lt;iframe width=&quot;640&quot; height=&quot;360&quot; src=&quot;https://www.youtube-nocookie.com/embed/aWm2K3FGO4E&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;span class=&quot;caption&quot;&gt;The radio played by my friend&lt;/span&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;exhibition&quot;&gt;Exhibition&lt;/h1&gt;
+
+&lt;p&gt;We had the chance to present our work (up to the fourth batch) to the &lt;a href=&quot;https://www.facebook.com/events/763474350490080&quot;&gt;Instr/humains&lt;/a&gt; exhibition in Paris, hosted by the art collective &lt;a href=&quot;https://www.lamaincollectif.fr/&quot;&gt;La Main&lt;/a&gt;. Thanks to them!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/6qIiFPV.jpg?1&quot; alt=&quot;Exhibition display&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I will keep this thread updated with the further batches. See you soon!&lt;/p&gt;</content><author><name></name></author><category term="music" /><category term="hardware" /><summary type="html">TL;DR</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry><entry><title type="html">Akai MPC 1000 tact switch replacement</title><link href="https://raphaelyancey.fr/en/2017/01/18/akai-mpc-1000-tact-switch-replacement.html" rel="alternate" type="text/html" title="Akai MPC 1000 tact switch replacement" /><published>2017-01-18T17:07:51+01:00</published><updated>2017-01-18T17:07:51+01:00</updated><id>https://raphaelyancey.fr/en/2017/01/18/akai-mpc-1000-tact-switch-replacement</id><content type="html" xml:base="https://raphaelyancey.fr/en/2017/01/18/akai-mpc-1000-tact-switch-replacement.html">&lt;h2 id=&quot;tldr-use-the-alps-skhhaka010-to-replace-faulty-tact-switches-on-the-mpc-1000&quot;&gt;&lt;strong&gt;TL;DR&lt;/strong&gt; Use the &lt;a href=&quot;https://www.mouser.fr/ProductDetail/ALPS/SKHHAKA010?qs=%2fha2pyFadugu8I2tvG3SpuRm3VqUGoC0rMk%2fYQJuWaE%3d&quot;&gt;ALPS SKHHAKA010&lt;/a&gt; to replace faulty tact switches on the MPC 1000.&lt;/h2&gt;
+
+&lt;p&gt;I’ve browse almost every forum to find a replacement for dead tact switches on my Akai MPC 1000 without finding an absolute answer to my question. The switches sold in my area (Paris) were too low (in height) and I had to glue a piece of plastic on the top to fill the gap.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/WPkXpKA.jpg&quot; alt=&quot;My shot at trying to make a tact switch higher&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;My shot at trying to make a tact switch higher&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;It did the trick for a time, but some other switches went dead and I needed the real stuff to fix my MPC 1000 : &lt;strong&gt;same height, same push force&lt;/strong&gt;. The push force is important for me because I neither wanted a different feel from the other buttons, nor to have to push too hard buttons that will be pushed hundreds of time per music session.&lt;/p&gt;
+
+&lt;p&gt;The candidates cited in the forums were all by the manufacturer ALPS, but opinions differed wether it should be the AMA, ALA or AKA. You can find a comparison of below. The original tact switch part number mentionned in the MPC 1000 service manual is the SKHHAM004A but I couldn’t find it anywhere on the Internet.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://imgur.com/ofFC2pH.jpg&quot; alt=&quot;Candidates comparison&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;Candidates comparison&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;The original tact switches on my MPC 1000 were 5mm high, so the the ALA was out: too low.
+I knew that the switches I bought in my local shop required more than 1N of push force, and I found it too much compared to the soft feeling from the original switches from the MPC. So the AMA was out.&lt;/p&gt;
+
+&lt;p&gt;It left me with the AKA, of which I bought 30 pieces plus some other stuff I needed, to reach the minimum cart amount on Farnell.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://imgur.com/OjKffIJ.jpg&quot; alt=&quot;SKHHAKA010 (left) vs. original from the MPC 1000 (right)&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;SKHHAKA010 (left) vs. original from the MPC 1000 (right)&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://imgur.com/tkBsLkD.jpg&quot; alt=&quot;The functions buttons board updated with SKHHAKA010 switches&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;The functions buttons board updated with SKHHAKA010 switches&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Waiting to buy a temperature-controlled soldering iron before fixing the right board switches (I had a hard time desoldering).
+But I’m formal : &lt;strong&gt;the ALPS SKHHAKA010 is the perfect replacement for broken MPC 1000 switches&lt;/strong&gt;, and I guess other MPCs as well. Mine is a MPC 1000 BK, the second version (black) and not the blue, but I’m sure it’ll fit the blue too.&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading, I’ll happily answer any questions!&lt;/p&gt;
+
+&lt;h2 id=&quot;update&quot;&gt;&lt;strong&gt;UPDATE&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;I’ve fixed the right board as well, works like a charm. Just make sure nothing touches the underneath metal structure when screwing it back or testing it unscrewed. It made some funny shorts when testing the buttons and I feared I had broken it for good!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/ZPSEnSI.jpg&quot; alt=&quot;The right board updated with SKHHAKA010 switches&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;The right board updated with SKHHAKA010 switches&lt;/span&gt;&lt;/p&gt;</content><author><name></name></author><category term="electronics" /><category term="music" /><summary type="html">TL;DR Use the ALPS SKHHAKA010 to replace faulty tact switches on the MPC 1000.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry><entry><title type="html">Display Internet radio station name with mpd/mpc</title><link href="https://raphaelyancey.fr/en/2016/10/05/display-internet-radio-station-name-mpd-mpc.html" rel="alternate" type="text/html" title="Display Internet radio station name with mpd/mpc" /><published>2016-10-05T18:07:51+02:00</published><updated>2016-10-05T18:07:51+02:00</updated><id>https://raphaelyancey.fr/en/2016/10/05/display-internet-radio-station-name-mpd-mpc</id><content type="html" xml:base="https://raphaelyancey.fr/en/2016/10/05/display-internet-radio-station-name-mpd-mpc.html">&lt;p&gt;In the process of making my own Internet radio with a Raspberry Pi, I struggled with &lt;code class=&quot;highlighter-rouge&quot;&gt;mpd&lt;/code&gt; (the player I’m using on the Pi to read the streams) to display, via its &lt;code class=&quot;highlighter-rouge&quot;&gt;mpc&lt;/code&gt; client, the custom names I wanted to set for each station. &lt;code class=&quot;highlighter-rouge&quot;&gt;mpd&lt;/code&gt; was fine displaying tags broadcasted by the stream (artist, track, etc. when available) but no way to set “static” names for the stations.&lt;/p&gt;
+
+&lt;p&gt;Moreover, &lt;code class=&quot;highlighter-rouge&quot;&gt;mpd&lt;/code&gt; doesn’t handle ExtM3U tags very well. As replied by the maintainer I contacted, it merges the ExtM3U tags with received tags from the stream.
+I tried several days to modify the source code to not merge the tags, but not being a C++ developper and not wanting to spend too much time on that, I found a better solution.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;TL;DR The solution is to append your custom station name to the stream URL, and then to extract it.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In your &lt;code class=&quot;highlighter-rouge&quot;&gt;.m3u&lt;/code&gt; file: &lt;code class=&quot;highlighter-rouge&quot;&gt;http://mystreamurl/;?station_name=MY_STATION_NAME&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;In your radio script (Python in my case), get the currently playing URL with &lt;code class=&quot;highlighter-rouge&quot;&gt;mpc -f %file% current&lt;/code&gt; and then extract the station name with a regex.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env python&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;station_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subprocess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;check_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpc -f &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;current&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stderr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subprocess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;STDOUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# http://mystreamurl/;?station_name=MY_STATION_NAME&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'\?station_name=(.*)'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;station_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ['MY_STATION_NAME']&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'_'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;' '&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# MY STATION NAME&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/strong&gt; if your stream URL has nothing after the host name, e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;http://mystreamurl:8080&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;http://mystreamurl&lt;/code&gt;, you must add a &lt;code class=&quot;highlighter-rouge&quot;&gt;;&lt;/code&gt; before the query parameter &lt;code class=&quot;highlighter-rouge&quot;&gt;?station_name=X&lt;/code&gt; as I did it in the example. Else, you can omit it.&lt;/p&gt;
+
+&lt;p&gt;Then do whatever you planned to do with it! I use it to display it on a LCD. You don’t even need ExtM3U with this, simple M3U playlists will work.&lt;/p&gt;
+
+&lt;p&gt;Feel free to ask questions or suggest modifications!&lt;/p&gt;</content><author><name></name></author><category term="linux" /><category term="programming" /><category term="python" /><summary type="html">In the process of making my own Internet radio with a Raspberry Pi, I struggled with mpd (the player I’m using on the Pi to read the streams) to display, via its mpc client, the custom names I wanted to set for each station. mpd was fine displaying tags broadcasted by the stream (artist, track, etc. when available) but no way to set “static” names for the stations.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry><entry><title type="html">Pinterest API useful endpoints</title><link href="https://raphaelyancey.fr/en/2014/08/09/pinterest-api-endpoints.html" rel="alternate" type="text/html" title="Pinterest API useful endpoints" /><published>2014-08-09T18:07:51+02:00</published><updated>2014-08-09T18:07:51+02:00</updated><id>https://raphaelyancey.fr/en/2014/08/09/pinterest-api-endpoints</id><content type="html" xml:base="https://raphaelyancey.fr/en/2014/08/09/pinterest-api-endpoints.html">&lt;p&gt;Some useful API endpoints you can use to retrieve pins from an user’s profile or specific board :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;https://api.pinterest.com/v3/pidgets/boards/[username]/[board_name]/pins/&lt;/code&gt; retrieves last 50 pins for a specific user’s board&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;https://api.pinterest.com/v3/pidgets/users/[username]/pins/&lt;/code&gt; retrieves last 50 pins (globally)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;http://i.pinimg.com/originals/[xx]/[yy]/[zz]/[xxyyzz...].jpg&lt;/code&gt; retrieves the pin in its original size (this URL format is returned by the previous methods)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Pinterest hasn’t released a public API yet&lt;/strong&gt;, and the API key seems to be hard to get.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Edit&lt;/strong&gt;: I used these endpoints in my &lt;a href=&quot;https://raphaelyancey.github.io/Pinwatcher&quot;&gt;Pinwatcher&lt;/a&gt; script that allows you to backup &amp;amp; save your or someone’s pins to your hard drive.&lt;/em&gt;&lt;/p&gt;</content><author><name></name></author><category term="programming" /><category term="api" /><summary type="html">Some useful API endpoints you can use to retrieve pins from an user’s profile or specific board :</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://raphaelyancey.fr/assets/img/bg.jpg" /></entry></feed>
