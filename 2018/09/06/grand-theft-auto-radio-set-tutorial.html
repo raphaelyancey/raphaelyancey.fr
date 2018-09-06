@@ -236,11 +236,7 @@ network={
 
 <ul>
   <li><code class="highlighter-rouge">ssh</code> into your Raspberry Pi</li>
-  <li><strong>Run</strong> the following commands:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>raspi-config <span class="nt">--expand-rootfs</span> <span class="c"># Makes the root partition fill up the micro-SD card</span>
-wget https://raw.githubusercontent.com/raphaelyancey/Virtual_FM_Band/ftr_easy-wrapper/install.sh | bash <span class="c"># Good practice is to read the script before running it!</span>
-</code></pre></div>    </div>
-  </li>
+  <li><strong>Run</strong> the install script: <code class="highlighter-rouge">curl https://raw.githubusercontent.com/raphaelyancey/Virtual_FM_Band/master/install.sh | bash</code></li>
 </ul>
 
 <p>The <a href="https://raw.githubusercontent.com/raphaelyancey/Virtual_FM_Band/master/install.sh">install script</a> installs packages, clone the virtual radio software, installs required Python modules and creates a cron to run the virtual radio at boot.</p>
