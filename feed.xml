@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="https://raphaelyancey.fr/feed.xml" rel="self" type="application/atom+xml" /><link href="https://raphaelyancey.fr/" rel="alternate" type="text/html" /><updated>2018-09-06T10:49:18+02:00</updated><id>https://raphaelyancey.fr/</id><title type="html">Raphaël Yancey</title><subtitle>Programming, electronics, music and other</subtitle><entry><title type="html">Build your own GTA: San Andreas radio set</title><link href="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html" rel="alternate" type="text/html" title="Build your own GTA: San Andreas radio set" /><published>2018-09-06T00:00:00+02:00</published><updated>2018-09-06T00:00:00+02:00</updated><id>https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial</id><content type="html" xml:base="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html">&lt;!-- TODO: update install script URL --&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="https://raphaelyancey.fr/feed.xml" rel="self" type="application/atom+xml" /><link href="https://raphaelyancey.fr/" rel="alternate" type="text/html" /><updated>2018-09-06T10:54:19+02:00</updated><id>https://raphaelyancey.fr/</id><title type="html">Raphaël Yancey</title><subtitle>Programming, electronics, music and other</subtitle><entry><title type="html">Build your own GTA: San Andreas radio set</title><link href="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html" rel="alternate" type="text/html" title="Build your own GTA: San Andreas radio set" /><published>2018-09-06T00:00:00+02:00</published><updated>2018-09-06T00:00:00+02:00</updated><id>https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial</id><content type="html" xml:base="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html">&lt;!-- TODO: update install script URL --&gt;
 
 &lt;p&gt;By following this tutorial you’ll be able to build a radio set with custom stations, in this case the &lt;em&gt;GTA: San Andreas&lt;/em&gt; stations. &lt;a href=&quot;/projects/grand-theft-auto-san-andreas-radio-set.html&quot;&gt;This is the original radio I built.&lt;/a&gt;&lt;/p&gt;
 
@@ -150,14 +150,7 @@
 &lt;h2 id=&quot;flash-raspbian-to-a-sd-card&quot;&gt;Flash Raspbian to a SD card&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Get the &lt;a href=&quot;https://downloads.raspberrypi.org/raspbian_latest&quot;&gt;latest &lt;strong&gt;Raspbian image&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;Why not Raspbian Lite?&lt;/strong&gt; Because headless WiFi configuration seems buggy for now. However if you have access to an Ethernet cable, you can choose Raspbian Lite and skip the &lt;em&gt;wpa_supplicant.conf&lt;/em&gt; part below.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
+  &lt;li&gt;Get the &lt;a href=&quot;https://downloads.raspberrypi.org/raspbian_lite_latest&quot;&gt;latest &lt;strong&gt;Raspbian Lite image&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Flash it&lt;/strong&gt; to the micro-SD card with e.g. &lt;a href=&quot;https://etcher.io/&quot;&gt;Etcher&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Once flashed, remove it and put it back in your computer to be able to access the &lt;em&gt;/boot&lt;/em&gt; partition&lt;/li&gt;
   &lt;li&gt;In a terminal, &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; into the micro-SD card and type the following commands&lt;/li&gt;
