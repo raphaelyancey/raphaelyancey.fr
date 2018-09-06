@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="https://raphaelyancey.fr/feed.xml" rel="self" type="application/atom+xml" /><link href="https://raphaelyancey.fr/" rel="alternate" type="text/html" /><updated>2018-09-06T10:57:18+02:00</updated><id>https://raphaelyancey.fr/</id><title type="html">Raphaël Yancey</title><subtitle>Programming, electronics, music and other</subtitle><entry><title type="html">Build your own GTA: San Andreas radio set</title><link href="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html" rel="alternate" type="text/html" title="Build your own GTA: San Andreas radio set" /><published>2018-09-06T00:00:00+02:00</published><updated>2018-09-06T00:00:00+02:00</updated><id>https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial</id><content type="html" xml:base="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html">&lt;!-- TODO: update install script URL --&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="https://raphaelyancey.fr/feed.xml" rel="self" type="application/atom+xml" /><link href="https://raphaelyancey.fr/" rel="alternate" type="text/html" /><updated>2018-09-06T11:06:11+02:00</updated><id>https://raphaelyancey.fr/</id><title type="html">Raphaël Yancey</title><subtitle>Programming, electronics, music and other</subtitle><entry><title type="html">Build your own GTA: San Andreas radio set</title><link href="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html" rel="alternate" type="text/html" title="Build your own GTA: San Andreas radio set" /><published>2018-09-06T00:00:00+02:00</published><updated>2018-09-06T00:00:00+02:00</updated><id>https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial</id><content type="html" xml:base="https://raphaelyancey.fr/2018/09/06/grand-theft-auto-radio-set-tutorial.html">&lt;!-- TODO: update install script URL --&gt;
 
 &lt;p&gt;By following this tutorial you’ll be able to build a radio set with custom stations, in this case the &lt;em&gt;GTA: San Andreas&lt;/em&gt; stations. &lt;a href=&quot;/projects/grand-theft-auto-san-andreas-radio-set.html&quot;&gt;This is the original radio I built.&lt;/a&gt;&lt;/p&gt;
 
@@ -57,7 +57,7 @@
 &lt;h2 id=&quot;3-build-the-speaker-assembly&quot;&gt;3. Build the speaker assembly&lt;/h2&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;Check out the &lt;a href=&quot;#6-wire-it-up&quot;&gt;schematics below&lt;/a&gt; to have a more general view of the wiring&lt;/p&gt;
+  &lt;p&gt;Check out the &lt;a href=&quot;#7-wire-it-up&quot;&gt;schematics below&lt;/a&gt; to have a more general view of the wiring&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;ul&gt;
@@ -111,7 +111,7 @@
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;Drill&lt;/strong&gt; two holes for the encoders&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Drill or cut&lt;/strong&gt; a rectangular hole for the micro-USB panel mount and two more aside it to screw it to the case&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Drill or cut&lt;/strong&gt; a rectangular hole for the micro-USB panel mount and two more holes aside it to screw it to the case&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;strong&gt;Optional but very useful:&lt;/strong&gt; cut a hole for accessing the Pi micro-SD card without having to open the case.&lt;/p&gt;
@@ -132,6 +132,10 @@
 &lt;ul&gt;
   &lt;li&gt;Follow the following wiring schema and if needed, get help from &lt;a href=&quot;https://pinout.xyz&quot;&gt;pinout.xyz&lt;/a&gt; for identifying the pin numbers (BCM numbering is used across the project)&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The amp is here represented as an IC but really is a PCB like the one I linked in the bill of materials. Also, the male audio jack is represented as… a sticker (because these parts didn’t exist in Fritzing)&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://i.imgur.com/XvqQmSJ.png&quot; alt=&quot;Wiring schematics&quot; /&gt;&lt;/p&gt;
 
